@@ -2767,7 +2767,7 @@ const LoginScreen = ({ onLogin, isLoading, loginError }) => {
               )}
           </div>
         </form>
-
+    
       </div>
     </div>
   );
