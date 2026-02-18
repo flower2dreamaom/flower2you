@@ -2767,12 +2767,7 @@ const LoginScreen = ({ onLogin, isLoading, loginError }) => {
               )}
           </div>
         </form>
-        
-        <div className="mt-6 text-center">
-           <p className="text-xs text-slate-400 bg-slate-50 py-2 px-4 rounded-lg inline-block border border-slate-100">
-             ค่าเริ่มต้น: admin / password1234
-           </p>
-        </div>
+
       </div>
     </div>
   );
