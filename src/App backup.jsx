@@ -98,7 +98,7 @@ import {
 // --- CONFIGURATION ---
 // นำ Web App URL ที่ได้จากการ Deploy Apps Script มาวางที่นี่
 // [UPDATED] อัปเดต URL ให้ตรงกับที่คุณให้มาล่าสุด
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2WJ4tt7l__0U6XYtgHbyl0W1iGjm6oHXa9-2twBKfa1xP2-SBj2hMwaHUYp7ew_Ih/exec"; 
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkTcAntGAgDkAt5b_3_Zus1TDZQj5y5zGLAAx_LF5spYvIOOtF3Hpq4DyeXA6I5eWq/exec"; 
 // ---------------------
 
 // [ADDED] Helper Functions for Color Manipulation
@@ -389,58 +389,8 @@ const ImageViewer = ({ src, onClose }) => {
   }, [scale]);
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] bg-black/95 flex flex-col animate-in fade-in duration-300">
-       <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-50 bg-gradient-to-b from-black/50 to-transparent">
-          <div className="text-white/80 text-sm font-bold flex items-center gap-2">
-             <ImageIcon className="w-4 h-4" />
-             Preview
-          </div>
-          <div className="flex items-center gap-4">
-             <div className="flex gap-2 bg-white/10 rounded-full p-1 backdrop-blur-md">
-                <button 
-                    onClick={() => setScale(Math.max(1, scale - 0.5))}
-                    className="p-2 text-white hover:bg-white/20 rounded-full transition"
-                >
-                    <ZoomOut className="w-5 h-5" />
-                </button>
-                <button 
-                    onClick={() => setScale(Math.min(5, scale + 0.5))}
-                    className="p-2 text-white hover:bg-white/20 rounded-full transition"
-                >
-                    <ZoomIn className="w-5 h-5" />
-                </button>
-             </div>
-             <button onClick={onClose} className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition">
-                <X className="w-6 h-6" />
-             </button>
-          </div>
-       </div>
-
-       <div 
-          ref={containerRef}
-          className="flex-1 flex items-center justify-center overflow-hidden cursor-move touch-none"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-       >
-          <img 
-              src={src} 
-              alt="Full Preview"
-              referrerPolicy="no-referrer"
-              style={{ 
-                  transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                  transition: isDragging ? 'none' : 'transform 0.2s ease-out',
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain'
-              }}
-              draggable={false}
-          />
-       </div>
+    <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col animate-in fade-in duration-300">
+       {/* ... existing code ... */}
        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 text-xs font-medium pointer-events-none bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
           {scale === 1 ? 'Pinch or Scroll to Zoom' : `${Math.round(scale * 100)}%`}
        </div>
@@ -471,7 +421,7 @@ const ShopFooter = ({ shopInfo, maxWidthClass = "max-w-7xl" }) => {
           
           {/* Left: Brand (Logo + Name) & Address */}
           <div className="flex items-start gap-3 w-full md:w-auto justify-center md:justify-start">
-              {/* [MODIFIED] Display Logo: Increased size to w-12 h-12 (48px) to cover 2 text rows */}
+              {/* ... existing code ... */}
               <div className="shrink-0 w-12 h-12 rounded-lg overflow-hidden flex items-center justify-center relative self-start mt-0.5">
                   {shopInfo.logo ? (
                       <img 
@@ -500,27 +450,13 @@ const ShopFooter = ({ shopInfo, maxWidthClass = "max-w-7xl" }) => {
               </div>
           </div>
           
-          {/* Right: Contact Info (Top on Mobile) & Socials (Bottom on Mobile) */}
-          <div className="flex flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto">
+          {/* Right: Socials & Contact Info (Phone/Email moved here) */}
+          {/* [MODIFIED] Mobile: flex-col-reverse (Contact Top, Socials Bottom) | Desktop: flex-col (Socials Top, Contact Bottom) */}
+          <div className="flex flex-col-reverse md:flex-col items-center md:items-end gap-3 md:gap-2 w-full md:w-auto">
               
-              {/* [MOVED] Contact Info (Phone/Email) moved above Socials on Mobile */}
-              <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-4 gap-y-1 text-xs font-medium text-slate-500 w-full md:w-auto">
-                  {shopInfo.phone && (
-                      <a href={`tel:${shopInfo.phone}`} className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors whitespace-nowrap">
-                          <Phone className="w-3.5 h-3.5" /> 
-                          {formatPhoneNumber(shopInfo.phone)}
-                      </a>
-                  )}
-                  {shopInfo.email && (
-                      <a href={`mailto:${shopInfo.email}`} className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors break-all">
-                          <Mail className="w-3.5 h-3.5 shrink-0" /> 
-                          {shopInfo.email}
-                      </a>
-                  )}
-              </div>
-
-              {/* [MOVED] Social Icons Row moved below Contact Info on Mobile */}
+              {/* Social Icons Row */}
               <div className="flex items-center gap-3">
+                  {/* [MODIFIED] Use LineIcon instead of MessageCircle */}
                   {shopInfo.line && (
                       <a href={shopInfo.line} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-[#06C755] transition-all hover:scale-110">
                           <LineIcon className="w-5 h-5" />
@@ -541,6 +477,7 @@ const ShopFooter = ({ shopInfo, maxWidthClass = "max-w-7xl" }) => {
                           <Music2 className="w-5 h-5" />
                       </a>
                   )}
+                  {/* [ADDED] Twitter (X) & WeChat Icons in Footer */}
                   {shopInfo.twitter && (
                       <a href={shopInfo.twitter} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-black transition-all hover:scale-110">
                           <XIcon className="w-4 h-4" />
@@ -551,9 +488,27 @@ const ShopFooter = ({ shopInfo, maxWidthClass = "max-w-7xl" }) => {
                           <WeChatIcon className="w-5 h-5" />
                       </a>
                   )}
+                  {/* [ADDED] Telegram Icon in Footer */}
                   {shopInfo.telegram && (
                       <a href={shopInfo.telegram} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-[#0088cc] transition-all hover:scale-110">
                           <TelegramIcon className="w-5 h-5" />
+                      </a>
+                  )}
+              </div>
+
+              {/* [MOVED] Contact Info (Phone/Email) moved to Right side below Socials */}
+              {/* [MODIFIED] Added flex-wrap for multiline handling and justify-center for mobile centering */}
+              <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-4 gap-y-1 text-xs font-medium text-slate-500 w-full md:w-auto">
+                  {shopInfo.phone && (
+                      <a href={`tel:${shopInfo.phone}`} className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors whitespace-nowrap">
+                          <Phone className="w-3.5 h-3.5" /> 
+                          {formatPhoneNumber(shopInfo.phone)}
+                      </a>
+                  )}
+                  {shopInfo.email && (
+                      <a href={`mailto:${shopInfo.email}`} className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors break-all">
+                          <Mail className="w-3.5 h-3.5 shrink-0" /> 
+                          {shopInfo.email}
                       </a>
                   )}
               </div>
@@ -2325,44 +2280,38 @@ ${moneyOrderDetails}${quotationDetails}
             @media print {
                 /* [MODIFIED] Target both html and body to force text color white on browser UI */
                 html, body { 
-                    width: 210mm !important; /* [FIX] กำหนดขนาดตายตัวให้ Safari บังคับย่อ (Scale to fit) ได้พอดีกับ A4 */
-                    height: 297mm !important;
-                    background: white !important; 
-                    margin: 0 !important;
-                    padding: 0 !important;
+                    width: 100%;
+                    height: auto; /* [MODIFIED] Changed from 100% to auto to avoid forcing height issues */
+                    background: white; 
+                    margin: 0;
+                    padding: 0;
+                    /* color: white !important;  REMOVED to prevent interfering with content colors */
                 }
                 .receipt-a4-container {
-                    width: 210mm !important; 
-                    height: 296.5mm !important; /* [FIX] ลดจาก 297mm นิดหน่อย ป้องกัน Safari ดันเนื้อหาไปหน้าเปล่า */
-                    max-height: 296.5mm !important;
-                    box-shadow: none !important;
-                    margin: 0 !important;
-                    padding: 40px !important; 
-                    page-break-after: always !important;
-                    break-after: page !important; /* [FIX] เพิ่ม break-after สำหรับ Safari */
-                    page-break-inside: avoid !important;
-                    break-inside: avoid !important;
-                    color: initial; 
-                    visibility: visible !important;
-                    overflow: hidden !important;
-                    box-sizing: border-box !important;
+                    width: 100%;
+                    height: 297mm; /* Force A4 height in print */
+                    box-shadow: none;
+                    margin: 0;
+                    padding: 40px !important; /* Keep padding */
+                    page-break-after: always;
+                    color: initial; /* [MODIFIED] Allow colors to show */
+                    visibility: visible;
+                    overflow: hidden;
                 }
                 .receipt-a4-container:last-child {
-                    page-break-after: auto !important;
-                    break-after: auto !important;
+                    page-break-after: auto;
                 }
                 
                 .page-break-after {
-                    page-break-after: always !important;
-                    break-after: page !important;
+                    page-break-after: always;
                 }
                 .force-print-bg {
-                    -webkit-print-color-adjust: exact !important;
-                    print-color-adjust: exact !important;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
                 }
                 @page { 
-                    size: A4 portrait; /* [FIX] ระบุ portrait เพื่อให้ชัดเจน */
-                    margin: 0mm; 
+                    size: A4; 
+                    margin: 0; /* [MODIFIED] Reset margins to 0 to prevent overflow causing extra blank pages */
                 }
                 .no-print { display: none !important; }
             }
@@ -4011,7 +3960,6 @@ const App = () => {
   
   const [allActivities, setAllActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSyncingSettings, setIsSyncingSettings] = useState(false); // [ADDED] State สำหรับบอกสถานะการซิงค์ข้อมูลตั้งค่า
 
   // Refs
   const mainRef = useRef(null);
@@ -4162,20 +4110,19 @@ const App = () => {
 
   // --- 3. FUNCTION DEFINITIONS ---
 
-  // [MODIFIED] เพิ่มโหมด showSyncIndicator และระบบ Smart Diffing ลดการ Re-render
-  const fetchSettings = async (showSyncIndicator = false) => {
+  const fetchSettings = async () => {
     if (!GOOGLE_SCRIPT_URL) {
         setIsSettingsLoaded(true);
         return;
     }
     
-    if (showSyncIndicator) setIsSyncingSettings(true);
+    // [MODIFIED] Add Timeout race to prevent indefinite loading if backend is slow
     const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve('timeout'), 5000));
     
     try {
         const fetchPromise = fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, // [FIX] เพิ่ม Header
             body: JSON.stringify({ action: 'getSettings' })
         });
 
@@ -4188,32 +4135,37 @@ const App = () => {
             if (result.status === 'success' && result.data) {
                 const data = result.data;
                 
-                // [ADDED] Helper ตรวจสอบข้อมูลก่อน อัปเดต State เฉพาะจุดที่มีการเปลี่ยนแปลงเท่านั้น (แก้ปัญหาหน้าเว็บกระตุก/โหลดช้า)
-                const updateIfChanged = (setter, newValue, cacheKey) => {
-                    setter(prev => {
-                        if (JSON.stringify(prev) !== JSON.stringify(newValue)) {
-                            if (cacheKey) localStorage.setItem(cacheKey, JSON.stringify(newValue));
-                            return newValue;
-                        }
-                        return prev; // ถ้าข้อมูลเดิม ระบบจะไม่ Re-render หน้าจอ
-                    });
-                };
+                // [FIX] Update states AND Cache to localStorage immediately
+                if (data.project_categories) {
+                    setProjectCategories(data.project_categories);
+                    localStorage.setItem('nexus_project_categories', JSON.stringify(data.project_categories));
+                }
+                if (data.expense_categories) {
+                    setExpenseCategories(data.expense_categories);
+                    localStorage.setItem('nexus_expense_categories', JSON.stringify(data.expense_categories));
+                }
+                if (data.deal_statuses) {
+                    setDealStatuses(data.deal_statuses);
+                    localStorage.setItem('nexus_deal_statuses', JSON.stringify(data.deal_statuses));
+                }
+                if (data.transport_statuses) {
+                    setTransportStatuses(data.transport_statuses);
+                    localStorage.setItem('nexus_transport_statuses', JSON.stringify(data.transport_statuses));
+                }
 
-                // ใช้ Helper จัดการการเปลี่ยนแปลง
-                if (data.project_categories) updateIfChanged(setProjectCategories, data.project_categories, 'nexus_project_categories');
-                if (data.expense_categories) updateIfChanged(setExpenseCategories, data.expense_categories, 'nexus_expense_categories');
-                if (data.deal_statuses) updateIfChanged(setDealStatuses, data.deal_statuses, 'nexus_deal_statuses');
-                if (data.transport_statuses) updateIfChanged(setTransportStatuses, data.transport_statuses, 'nexus_transport_statuses');
-                if (data.shop_info) updateIfChanged(setShopInfo, data.shop_info, 'nexus_shop_info');
-
-                if (data.drive_folder_id !== undefined) setDriveFolderId(data.drive_folder_id);
-                if (data.assets_drive_folder_id !== undefined) setAssetsDriveFolderId(data.assets_drive_folder_id);
+                if (data.drive_folder_id) setDriveFolderId(data.drive_folder_id);
+                if (data.assets_drive_folder_id) setAssetsDriveFolderId(data.assets_drive_folder_id);
                 
-                // Load Chatbot Tokens from settings
-                if (data.line_bot_token !== undefined) setLineBotToken(data.line_bot_token);
-                if (data.telegram_bot_token !== undefined) setTelegramBotToken(data.telegram_bot_token);
-                if (data.telegram_chat_id !== undefined) setTelegramChatId(data.telegram_chat_id);
-                if (data.web_app_url !== undefined) setWebAppUrl(data.web_app_url);
+                // [ADDED] Load Chatbot Tokens from settings
+                if (data.line_bot_token) setLineBotToken(data.line_bot_token);
+                if (data.telegram_bot_token) setTelegramBotToken(data.telegram_bot_token);
+                if (data.telegram_chat_id) setTelegramChatId(data.telegram_chat_id);
+                if (data.web_app_url) setWebAppUrl(data.web_app_url);
+
+                if (data.shop_info) {
+                    setShopInfo(data.shop_info);
+                    localStorage.setItem('nexus_shop_info', JSON.stringify(data.shop_info));
+                }
                 
                 if (data.app_credentials) {
                     let creds = data.app_credentials;
@@ -4227,9 +4179,11 @@ const App = () => {
                             phone: '-'
                         }];
                     }
-                    updateIfChanged(setAuthorizedUsers, creds, 'nexus_authorized_users');
+                    setAuthorizedUsers(creds);
+                    // [ADDED] Cache credentials to localStorage for instant login next time
+                    localStorage.setItem('nexus_authorized_users', JSON.stringify(creds));
 
-                    // Sync current logged-in user profile with latest data from server
+                    // [NEW FIX] Sync current logged-in user profile with latest data from server
                     const currentLocalProfile = localStorage.getItem('nexus_profile');
                     if (currentLocalProfile) {
                         const currentObj = JSON.parse(currentLocalProfile);
@@ -4257,7 +4211,6 @@ const App = () => {
         console.error("Error fetching settings:", error);
     } finally {
         setIsSettingsLoaded(true); 
-        if (showSyncIndicator) setIsSyncingSettings(false); // [ADDED] ปิดสถานะซิงค์ข้อมูล
     }
   };
 
@@ -4265,17 +4218,9 @@ const App = () => {
     fetchSettings();
   }, []);
 
-  // [MODIFIED] เรียกใช้งานพร้อมสั่งให้แสดง Indicator
-  useEffect(() => {
-    if (activeTab === 'Settings') {
-      fetchSettings(true); 
-    }
-  }, [activeTab]);
-
-  // [MODIFIED] เพิ่มพารามิเตอร์ isSilent เพื่อให้โหลดข้อมูลเบื้องหลังได้โดยไม่ขึ้นหน้าต่างโหลดกระตุก
-  const fetchProjects = async (isSilent = false) => {
+  const fetchProjects = async () => {
     if (!GOOGLE_SCRIPT_URL) return;
-    if (!isSilent) setIsLoading(true);
+    setIsLoading(true);
     
     const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 15000));
 
@@ -4334,25 +4279,15 @@ const App = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      if (!isSilent) showToast("การเชื่อมต่อล่าช้า ระบบกำลังทำงานในโหมด Offline", "error");
+      showToast("การเชื่อมต่อล่าช้า ระบบกำลังทำงานในโหมด Offline", "error");
     } finally {
-      if (!isSilent) setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (isLoggedIn || trackingId || quotationId) {
         fetchProjects();
-
-        // [MODIFIED] เปลี่ยนจากการดึงข้อมูลทุก 1 นาที เป็นการดึงข้อมูลเมื่อสลับแท็บกลับมาหน้าเว็บ (Window Focus)
-        // ช่วยประหยัด Quota ของ Google Apps Script ได้มหาศาล และข้อมูลยังสดใหม่เสมอเมื่อใช้งาน
-        const onFocus = () => {
-            fetchProjects(true); // Silent fetch ไม่ให้หน้าจอกระตุก
-        };
-
-        window.addEventListener('focus', onFocus);
-        
-        return () => window.removeEventListener('focus', onFocus);
     }
   }, [isLoggedIn, trackingId, quotationId]);
 
@@ -4391,7 +4326,6 @@ const App = () => {
       }
   }, [allActivities, trackingId, quotationId, isLoading]);
 
-  // [MODIFIED] Fix Race Condition in Settings Save (Partial Update)
   const saveSystemSettings = async (key, value) => {
       if (!GOOGLE_SCRIPT_URL) return;
       setIsSaving(true);
@@ -4404,21 +4338,32 @@ const App = () => {
           return;
       }
 
-      // [FIX] We only send partialData to Backend. The backend must handle merging.
-      // Removed fullPayload to prevent old data from overriding new data from other users.
-      const payloadToSend = { ...partialData };
+      const fullPayload = {
+          project_categories: projectCategories,
+          expense_categories: expenseCategories,
+          deal_statuses: dealStatuses,
+          transport_statuses: transportStatuses,
+          drive_folder_id: driveFolderId,
+          assets_drive_folder_id: assetsDriveFolderId,
+          line_bot_token: lineBotToken,
+          telegram_bot_token: telegramBotToken,
+          telegram_chat_id: telegramChatId,
+          web_app_url: webAppUrl,
+          shop_info: shopInfo,
+          app_credentials: partialData.app_credentials || authorizedUsers,
+          ...partialData 
+      };
 
       try {
           await fetch(GOOGLE_SCRIPT_URL, {
               method: 'POST',
-              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              headers: { "Content-Type": "text/plain;charset=utf-8" }, // [FIX] เพิ่ม Header
               body: JSON.stringify({
                   action: 'saveSettings',
-                  data: payloadToSend // [FIX] Send only the changed keys
+                  data: fullPayload 
               })
           });
           
-          // Update Local State & Cache
           if (partialData.app_credentials) {
               setAuthorizedUsers(partialData.app_credentials);
               localStorage.setItem('nexus_authorized_users', JSON.stringify(partialData.app_credentials));
@@ -5432,48 +5377,8 @@ const App = () => {
 
     const totalQuotation = quotationItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
 
-    // [ADDED] Logic ป้องกัน ID ชนกัน และป้องกันเซฟทับของที่ถูกลบไปแล้ว
-    let finalId = currentId;
-
-    if (GOOGLE_SCRIPT_URL) {
-        try {
-            // โหลดข้อมูลล่าสุดสดๆ ร้อนๆ เสี้ยววินาทีก่อนบันทึก
-            const res = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ action: 'read' })
-            });
-            const latestData = await res.json();
-
-            if (latestData.status === 'success') {
-                const latestActivities = latestData.data;
-
-                if (!editingId) {
-                    // กรณีสร้างใหม่: คำนวณ ID ใหม่ล่าสุดจากฐานข้อมูลจริง เพื่อป้องกัน 2 คนกด Add พร้อมกัน
-                    const ids = latestActivities.map(item => {
-                        if(!item.id) return 0;
-                        const match = item.id.match(/\d+/); 
-                        return match ? parseInt(match[0]) : 0;
-                    });
-                    const maxId = ids.length > 0 ? Math.max(...ids) : 0;
-                    finalId = `P-${String(maxId + 1).padStart(4, '0')}`;
-                } else {
-                    // กรณีแก้ไข: เช็คว่างานนี้ยังอยู่ในระบบไหม (โดนคนอื่นลบไปตัดหน้าหรือเปล่า)
-                    const stillExists = latestActivities.some(item => item.id === editingId);
-                    if (!stillExists) {
-                        showToast("ไม่สามารถบันทึกได้: รายการนี้ถูกลบไปแล้วโดยผู้ใช้อื่น", "error");
-                        setIsSaving(false);
-                        return; // ยกเลิกการเซฟ
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn("ไม่สามารถตรวจสอบการชนกันของข้อมูลได้ ทำการบันทึกตามปกติ", e);
-        }
-    }
-
     const activityData = {
-      id: finalId, // [MODIFIED] ใช้ finalId ที่ผ่านการตรวจสอบแล้วว่าไม่ชนแน่นอน
+      id: currentId,
       name: projectName || 'โครงการใหม่ (ไม่ได้ระบุชื่อ)',
       category: projectCategory,
       artist: artistName || '-',
@@ -6800,15 +6705,7 @@ const App = () => {
         {/* --- Tab 5: Settings --- */}
         <div className={activeTab === 'Settings' ? 'block space-y-8 px-4 sm:px-8 lg:px-10 pt-6 pb-24 md:pb-6' : 'hidden'}>
             <div className="max-w-4xl mx-auto">
-              <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-3xl font-extrabold text-slate-900">ตั้งค่าระบบ</h2>
-                  {isSyncingSettings && (
-                      <span className="flex items-center gap-1.5 text-xs font-bold bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-full animate-pulse border border-indigo-100 shadow-sm">
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          ซิงค์ข้อมูลล่าสุด...
-                      </span>
-                  )}
-              </div>
+              <h2 className="text-3xl font-extrabold text-slate-900 mb-6">ตั้งค่าระบบ</h2>
               <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden mb-8">
                 <div className="h-48 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative">
                   <div className="absolute right-6 top-6">
