@@ -98,7 +98,7 @@ import {
 // --- CONFIGURATION ---
 // นำ Web App URL ที่ได้จากการ Deploy Apps Script มาวางที่นี่
 // [UPDATED] อัปเดต URL ให้ตรงกับที่คุณให้มาล่าสุด
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtSUrA79C6o8LL3eanUYIin5DrRlEwR_2tcBJixmTWQvdwGa-aKgDwrA3CtRfYpxK5/exec"; 
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyA9mnOZ_BRuVTi8mPVU0_vIWUM09Pph64k80jK5LIMFFobm2uYlNJGCC0ylRaSSlPErg/exec"; 
 // ---------------------
 
 // [ADDED] Helper Functions for Color Manipulation
